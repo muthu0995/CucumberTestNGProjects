@@ -1,0 +1,73 @@
+<suite name = "TestNG Suite">
+	<listeners>
+		<listener class-name="mkProgramz.testNG.ListenersResport"></listener>
+	</listeners>
+	<!-- We can group a groupOfcases using define tag & This will execute only @Test with group name as "Car2" within classes -->
+	<test name ="Group testCases" parallel="methods" thread-count="3">
+		<parameter name="Name" value="Muthu"></parameter>
+		<groups>
+			<dependencies>
+				<group depends-on="Car3" name="Car2"></group>
+			</dependencies>
+		</groups>
+		<classes>
+		<class name = "mkProgramz.testNG.groupMethods"/>
+		<class name = "mkProgramz.testNG.sampleTestCase"/>
+		<class name = "mkProgramz.testNG.dependenciesMethod"/>	
+		</classes>
+	</test>
+	<!-- Clt+Shit+/ ->  command -->
+	<!-- We can group a groupOfcases using define tag & This will execute only @Test with group name as "Car2" within classes -->
+	<!--<test name ="Group testCases">
+		<parameter name="Name" value="Muthu"></parameter>
+		<groups>
+			<define name ="Smoke">
+				<include name="Car2"/>
+			</define>
+			<define name ="Regression">
+				<include name="Car3"/>
+			</define>
+			<run>
+				<include name="Smoke"></include>
+				<include name="Regression"></include>
+			</run>
+		</groups>
+		<classes>
+		<class name = "mkProgramz.testNG.groupMethods"/>
+		<class name = "mkProgramz.testNG.sampleTestCase"/>
+		<class name = "mkProgramz.testNG.dependenciesMethod"/>	
+		</classes>
+	</test>-->
+	
+	<!-- This will execute all @Test within classes -->
+	<!--<test name ="Group testCases">
+		<groups>
+				<include name="Car2"></include>
+		</groups>
+		<classes>
+		<class name = "mkProgramz.testNG.groupMethods"/>	
+		</classes>
+	</test>-->
+	
+	<!-- This will execute only @Test with group name as "Car2" within classes -->
+	<!--<test name ="Group testCases">
+		<groups>
+			<run>
+				<include name="Car2"></include>
+			</run>
+		</groups>
+		<classes>
+		<class name = "mkProgramz.testNG.groupMethods"/>
+		<class name = "mkProgramz.testNG.sampleTestCase"/>
+		<class name = "mkProgramz.testNG.dependenciesMethod"/>	
+		</classes>
+	</test>-->
+	
+	<!-- This will execute all @Test Tag within classes -->
+	<!--<test name= "TestNG Test">
+		<classes>
+		<class name = "mkProgramz.testNG.sampleTestCase"/>
+		<class name = "mkProgramz.testNG.dependenciesMethod"/>
+		</classes>	
+	</test>-->
+</suite>
