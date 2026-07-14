@@ -1,11 +1,16 @@
+import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter;
+
+import java.util.*;
+
 public class SimpleQA {
 
+    public  static void main(String[] args) {
 //    1.What is the difference between == and equals()?
 //     == compares the references of two objects, while equals() compares the contents of two objects.
 
 //   2. What is the difference between primitive types and wrapper classes?
-    int primitiveInt = 5; // primitive type
-    Integer wrapperInt = Integer.parseInt("5"); // wrapper class
+        int primitiveInt = 5; // primitive type
+        Integer wrapperInt = Integer.parseInt("5"); // wrapper class
 //     Primitive types are basic data types (int, char, boolean, etc.) that hold their values directly,
 //     while wrapper classes (Integer, Character, Boolean, etc.) provide additional methods and can be used in Collection methods.
 
@@ -18,10 +23,10 @@ public class SimpleQA {
 //    Type casting in Java is converting a variable from one data type to another.
 //    two types:
 //            1.Widening (Implicit) - smaller to larger type (automatic)
-    int i=5;
-    double d = i; // implicit widening
+        int i = 5;
+        double d = i; // implicit widening
 //            2.Narrowing (Explicit) - larger to smaller type (manual)
-    int j = (int) d; // explicit narrowing
+        int j = (int) d; // explicit narrowing
 //
 //    With Objects:
 //    // Parent → Child (needs cast)
@@ -31,7 +36,6 @@ public class SimpleQA {
 //    // Child → Parent (automatic)
 //    Dog dog = new Dog();
 //    Animal animal = dog;     // implicit, always safe
-
 
 
 //    5. What are the four main OOP principles?
@@ -48,8 +52,58 @@ public class SimpleQA {
 //    6. What is Interface
 //Interface is complete Abstract class. It group related method with empty bodies.
 
+//    7.What is the difference between List, Set, and Map?
+//    List: An ordered collection that allows duplicate elements. Elements can be accessed by their index.
+//    Set: An unordered collection that does not allow duplicate elements. It is used to store unique elements.
+//    Map: An object that maps keys to values. Each key can map to at most one value, and keys must be unique. It is used for key-value pair storage and retrieval.
 
+        LinkedList<String> list = new LinkedList<String>();
+        list.add("One");
+        list.add("Two");
+        list.add("Three");
+        System.out.println("List: " + list);
+        System.out.println("List[0]:"+list.get(0));
+        list.addFirst("Zero");
+        list.remove(0);
+        list.remove("Two");
+        list.addLast("last");
+        list.addLast("apple");
+        System.out.println("List: " + list); // it will print in inserted Order
+        Collections.sort(list); // it will sort in assending order A-Z then a-Z. First priority goes to uppercase
+        System.out.println("Sorted List: " + list);
+        Collections.sort(list, String.CASE_INSENSITIVE_ORDER); // it ignore case and sort in assending order
+        System.out.println("Sorted List with Case Insensitive: " + list);
+        list.sort(Collections.reverseOrder()); // It will reverse by Desc to Asscending
+        System.out.println("Sorted List by Desending order: " + list);
+        Collections.reverse(list); // It will reverse the insertion order
+        System.out.println("Reverse the insertion orderList: " + list);
+        System.out.println( list.stream().allMatch(s -> s.isEmpty()));
+        System.out.println("List: " + list);
 
+        HashSet<String> set = new HashSet<>();
+        set.add("One");
+        set.add("Two");
+        set.add("Three");
+        System.out.println("Set: " + set);
+        System.out.println("Set[0]:"+set.iterator().next());
 
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("One", 1);
+        map.put("Two", 2);
+        map.put("Three", 3);
+        System.out.println("Map: " + map);
+            for(Map.Entry<String,Integer> givenEntry: map.entrySet()){
+            System.out.println("Key: " + givenEntry.getKey() + ", Value: " + givenEntry.getValue());
+            }
 
+//        8.What is the difference between ArrayList and LinkedList?
+//        ArrayList: It is a resizable array implementation of the List interface. It provides fast random access to elements but slower insertion and deletion operations, especially in the middle of the list.
+//        LinkedList: It is a doubly-linked list implementation of the List interface. It provides fast insertion and deletion operations but slower random access to elements.
+
+//        9.StringBuilder vs String vs StringBuffer
+//        String: It is immutable, meaning once created, its value cannot be changed. Any modification creates a new String object.
+//        StringBuilder: It is mutable and designed for single-threaded use. It provides better performance for string manipulation when thread safety is not a concern.
+//        StringBuffer: It is mutable and thread-safe, meaning it can be used in multi-threaded environments. However, it has a performance overhead due to synchronization, making it slower than StringBuilder in single-threaded scenarios.
+
+    }
 }
