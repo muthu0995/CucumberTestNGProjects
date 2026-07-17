@@ -1,0 +1,688 @@
+{
+  "system": {
+    "id": "SYS-2026-07-17-001",
+    "name": "Global Commerce & Analytics Platform",
+    "version": "4.8.12",
+    "environment": "production",
+    "regions": [
+      "us-east-1",
+      "eu-central-1",
+      "ap-south-1",
+      "ca-central-1"
+    ],
+    "features": {
+      "payments": true,
+      "inventory": true,
+      "recommendations": true,
+      "analytics": true,
+      "fraudDetection": true,
+      "multiTenant": true,
+      "betaFlags": [
+        "dynamic_pricing_v2",
+        "realtime_ab_testing",
+        "warehouse_robotics_integration"
+      ]
+    },
+    "metadata": {
+      "createdAt": "2024-01-10T09:15:00Z",
+      "lastDeployedAt": "2026-07-15T22:40:12Z",
+      "maintainers": [
+        {
+          "name": "Alice Johnson",
+          "email": "alice.johnson@example.com",
+          "roles": ["devops", "security"],
+          "onCall": true
+        },
+        {
+          "name": "Rahul Mehta",
+          "email": "rahul.mehta@example.com",
+          "roles": ["backend", "data-engineering"],
+          "onCall": false
+        }
+      ]
+    }
+  },
+  "tenants": [
+    {
+      "tenantId": "TENANT-001",
+      "name": "NorthStar Retail Group",
+      "country": "Canada",
+      "timezone": "America/Toronto",
+      "status": "active",
+      "settings": {
+        "currency": "CAD",
+        "language": "en",
+        "taxProfile": {
+          "gst": true,
+          "hst": true,
+          "pst": false,
+          "rules": [
+            {
+              "province": "ON",
+              "rate": 0.13,
+              "type": "HST",
+              "effectiveFrom": "2020-01-01"
+            },
+            {
+              "province": "QC",
+              "rate": 0.14975,
+              "type": "GST+QST",
+              "effectiveFrom": "2019-07-01"
+            }
+          ]
+        },
+        "shipping": {
+          "defaultCarrier": "Canada Post",
+          "fallbackCarrier": "UPS",
+          "rules": [
+            {
+              "name": "Standard Domestic",
+              "regions": ["ON", "QC", "BC", "AB"],
+              "baseRate": 7.99,
+              "perKgRate": 1.25,
+              "freeShippingThreshold": 75.0
+            },
+            {
+              "name": "Express Domestic",
+              "regions": ["ON", "QC"],
+              "baseRate": 14.99,
+              "perKgRate": 2.5,
+              "freeShippingThreshold": 150.0
+            }
+          ]
+        }
+      },
+      "users": [
+        {
+          "userId": "U-1001",
+          "name": "Muthu",
+          "email": "muthu@example.com",
+          "role": "admin",
+          "permissions": {
+            "canViewAnalytics": true,
+            "canManageInventory": true,
+            "canConfigurePayments": true,
+            "canInviteUsers": true
+          },
+          "preferences": {
+            "theme": "dark",
+            "dashboardLayout": "analytics-first",
+            "notifications": {
+              "email": true,
+              "sms": false,
+              "push": true
+            }
+          }
+        },
+        {
+          "userId": "U-1002",
+          "name": "Sarah Lee",
+          "email": "sarah.lee@example.com",
+          "role": "manager",
+          "permissions": {
+            "canViewAnalytics": true,
+            "canManageInventory": true,
+            "canConfigurePayments": false,
+            "canInviteUsers": false
+          },
+          "preferences": {
+            "theme": "light",
+            "dashboardLayout": "operations-first",
+            "notifications": {
+              "email": true,
+              "sms": true,
+              "push": false
+            }
+          }
+        }
+      ],
+      "catalog": {
+        "categories": [
+          {
+            "id": "CAT-001",
+            "name": "Electronics",
+            "children": [
+              {
+                "id": "CAT-001-01",
+                "name": "Mobile Phones",
+                "children": []
+              },
+              {
+                "id": "CAT-001-02",
+                "name": "Laptops",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "CAT-002",
+            "name": "Home & Kitchen",
+            "children": [
+              {
+                "id": "CAT-002-01",
+                "name": "Appliances",
+                "children": []
+              },
+              {
+                "id": "CAT-002-02",
+                "name": "Cookware",
+                "children": []
+              }
+            ]
+          }
+        ],
+        "products": [
+          {
+            "sku": "ELEC-MOB-001",
+            "name": "Nova X Pro 5G",
+            "categoryId": "CAT-001-01",
+            "brand": "NovaTech",
+            "attributes": {
+              "color": ["Black", "Blue", "Silver"],
+              "storage": ["128GB", "256GB"],
+              "ram": ["8GB", "12GB"],
+              "screenSizeInches": 6.7,
+              "batteryMah": 5000,
+              "os": "Android 14"
+            },
+            "pricing": {
+              "basePrice": 899.99,
+              "currency": "CAD",
+              "discounts": [
+                {
+                  "type": "percentage",
+                  "value": 10,
+                  "description": "Launch Offer",
+                  "validFrom": "2026-07-01",
+                  "validTo": "2026-07-31"
+                },
+                {
+                  "type": "fixed",
+                  "value": 50.0,
+                  "description": "Member Discount",
+                  "validFrom": "2026-07-10",
+                  "validTo": "2026-08-10"
+                }
+              ],
+              "dynamicPricing": {
+                "enabled": true,
+                "rules": [
+                  {
+                    "name": "High Demand Surge",
+                    "condition": {
+                      "inventoryBelow": 25,
+                      "dailyViewsAbove": 5000
+                    },
+                    "adjustment": {
+                      "type": "percentageIncrease",
+                      "value": 5
+                    }
+                  },
+                  {
+                    "name": "Low Demand Clearance",
+                    "condition": {
+                      "inventoryAbove": 200,
+                      "dailyViewsBelow": 500
+                    },
+                    "adjustment": {
+                      "type": "percentageDecrease",
+                      "value": 8
+                    }
+                  }
+                ]
+              }
+            },
+            "inventory": {
+              "warehouses": [
+                {
+                  "id": "WH-ON-01",
+                  "location": {
+                    "city": "Toronto",
+                    "province": "ON",
+                    "country": "Canada"
+                  },
+                  "stock": 120,
+                  "reserved": 15,
+                  "incoming": 40
+                },
+                {
+                  "id": "WH-QC-01",
+                  "location": {
+                    "city": "Montreal",
+                    "province": "QC",
+                    "country": "Canada"
+                  },
+                  "stock": 60,
+                  "reserved": 5,
+                  "incoming": 20
+                }
+              ],
+              "reorderRules": {
+                "minStock": 50,
+                "targetStock": 200,
+                "supplierId": "SUP-NT-01",
+                "leadTimeDays": 14
+              }
+            },
+            "ratings": {
+              "average": 4.5,
+              "count": 327,
+              "breakdown": {
+                "5": 220,
+                "4": 70,
+                "3": 25,
+                "2": 7,
+                "1": 5
+              }
+            },
+            "recommendationTags": [
+              "5G",
+              "flagship",
+              "long-battery",
+              "high-refresh-display"
+            ]
+          },
+          {
+            "sku": "HOME-COOK-101",
+            "name": "CastIron Pro Skillet 30cm",
+            "categoryId": "CAT-002-02",
+            "brand": "ChefMaster",
+            "attributes": {
+              "diameterCm": 30,
+              "material": "Cast Iron",
+              "ovenSafe": true,
+              "inductionCompatible": true,
+              "weightKg": 3.2
+            },
+            "pricing": {
+              "basePrice": 79.99,
+              "currency": "CAD",
+              "discounts": [],
+              "dynamicPricing": {
+                "enabled": false,
+                "rules": []
+              }
+            },
+            "inventory": {
+              "warehouses": [
+                {
+                  "id": "WH-ON-02",
+                  "location": {
+                    "city": "Mississauga",
+                    "province": "ON",
+                    "country": "Canada"
+                  },
+                  "stock": 300,
+                  "reserved": 20,
+                  "incoming": 0
+                }
+              ],
+              "reorderRules": {
+                "minStock": 100,
+                "targetStock": 400,
+                "supplierId": "SUP-CM-02",
+                "leadTimeDays": 10
+              }
+            },
+            "ratings": {
+              "average": 4.8,
+              "count": 142,
+              "breakdown": {
+                "5": 110,
+                "4": 25,
+                "3": 5,
+                "2": 1,
+                "1": 1
+              }
+            },
+            "recommendationTags": [
+              "cast-iron",
+              "pro-cookware",
+              "durable",
+              "oven-safe"
+            ]
+          }
+        ]
+      },
+      "orders": [
+        {
+          "orderId": "ORD-2026-0001",
+          "createdAt": "2026-07-16T14:22:10Z",
+          "status": "shipped",
+          "customer": {
+            "customerId": "CUST-001",
+            "name": "John Carter",
+            "email": "john.carter@example.com",
+            "phone": "+1-416-555-0101",
+            "addresses": {
+              "billing": {
+                "line1": "120 King St W",
+                "line2": "Suite 500",
+                "city": "Toronto",
+                "province": "ON",
+                "postalCode": "M5X 1A9",
+                "country": "Canada"
+              },
+              "shipping": {
+                "line1": "120 King St W",
+                "line2": "Suite 500",
+                "city": "Toronto",
+                "province": "ON",
+                "postalCode": "M5X 1A9",
+                "country": "Canada"
+              }
+            }
+          },
+          "items": [
+            {
+              "sku": "ELEC-MOB-001",
+              "name": "Nova X Pro 5G",
+              "quantity": 1,
+              "unitPrice": 899.99,
+              "discountApplied": 90.0,
+              "finalPrice": 809.99
+            },
+            {
+              "sku": "HOME-COOK-101",
+              "name": "CastIron Pro Skillet 30cm",
+              "quantity": 2,
+              "unitPrice": 79.99,
+              "discountApplied": 0.0,
+              "finalPrice": 159.98
+            }
+          ],
+          "totals": {
+            "subtotal": 969.97,
+            "discounts": 90.0,
+            "tax": {
+              "rate": 0.13,
+              "amount": 114.10
+            },
+            "shipping": 14.99,
+            "grandTotal": 1099.06,
+            "currency": "CAD"
+          },
+          "payment": {
+            "method": "credit_card",
+            "provider": "Stripe",
+            "status": "captured",
+            "transactionId": "TX-STR-789456123",
+            "capturedAt": "2026-07-16T14:23:01Z"
+          },
+          "shipping": {
+            "carrier": "Canada Post",
+            "service": "Expedited Parcel",
+            "trackingNumber": "CP-TRK-CA-99887766",
+            "shippedAt": "2026-07-16T18:05:30Z",
+            "estimatedDelivery": "2026-07-19",
+            "events": [
+              {
+                "time": "2026-07-16T18:05:30Z",
+                "location": "Toronto, ON",
+                "status": "Shipment picked up"
+              },
+              {
+                "time": "2026-07-17T06:40:12Z",
+                "location": "Mississauga, ON",
+                "status": "In transit"
+              }
+            ]
+          },
+          "flags": {
+            "isHighValue": true,
+            "fraudCheck": {
+              "score": 0.12,
+              "riskLevel": "low",
+              "rulesTriggered": []
+            }
+          }
+        },
+        {
+          "orderId": "ORD-2026-0002",
+          "createdAt": "2026-07-16T20:05:44Z",
+          "status": "pending_payment",
+          "customer": {
+            "customerId": "CUST-002",
+            "name": "Emily Zhang",
+            "email": "emily.zhang@example.com",
+            "phone": "+1-647-555-0202",
+            "addresses": {
+              "billing": {
+                "line1": "55 Bloor St E",
+                "line2": "Apt 1902",
+                "city": "Toronto",
+                "province": "ON",
+                "postalCode": "M4W 1A9",
+                "country": "Canada"
+              },
+              "shipping": {
+                "line1": "55 Bloor St E",
+                "line2": "Apt 1902",
+                "city": "Toronto",
+                "province": "ON",
+                "postalCode": "M4W 1A9",
+                "country": "Canada"
+              }
+            }
+          },
+          "items": [
+            {
+              "sku": "HOME-COOK-101",
+              "name": "CastIron Pro Skillet 30cm",
+              "quantity": 1,
+              "unitPrice": 79.99,
+              "discountApplied": 0.0,
+              "finalPrice": 79.99
+            }
+          ],
+          "totals": {
+            "subtotal": 79.99,
+            "discounts": 0.0,
+            "tax": {
+              "rate": 0.13,
+              "amount": 10.40
+            },
+            "shipping": 7.99,
+            "grandTotal": 98.38,
+            "currency": "CAD"
+          },
+          "payment": {
+            "method": "interac",
+            "provider": "Moneris",
+            "status": "pending",
+            "transactionId": null,
+            "capturedAt": null
+          },
+          "shipping": {
+            "carrier": "Canada Post",
+            "service": "Regular Parcel",
+            "trackingNumber": null,
+            "shippedAt": null,
+            "estimatedDelivery": null,
+            "events": []
+          },
+          "flags": {
+            "isHighValue": false,
+            "fraudCheck": {
+              "score": 0.35,
+              "riskLevel": "medium",
+              "rulesTriggered": [
+                "email_domain_new",
+                "shipping_equals_billing"
+              ]
+            }
+          }
+        }
+      ],
+      "analytics": {
+        "traffic": {
+          "daily": [
+            {
+              "date": "2026-07-14",
+              "visits": 15234,
+              "uniqueVisitors": 9870,
+              "bounceRate": 0.42,
+              "avgSessionDurationSeconds": 310
+            },
+            {
+              "date": "2026-07-15",
+              "visits": 16890,
+              "uniqueVisitors": 10450,
+              "bounceRate": 0.39,
+              "avgSessionDurationSeconds": 328
+            },
+            {
+              "date": "2026-07-16",
+              "visits": 17540,
+              "uniqueVisitors": 11020,
+              "bounceRate": 0.37,
+              "avgSessionDurationSeconds": 345
+            }
+          ],
+          "sources": {
+            "organic": 0.48,
+            "paid": 0.22,
+            "direct": 0.18,
+            "referral": 0.12
+          }
+        },
+        "sales": {
+          "dailyRevenue": [
+            {
+              "date": "2026-07-14",
+              "revenue": 45230.75,
+              "orders": 312,
+              "avgOrderValue": 145.0
+            },
+            {
+              "date": "2026-07-15",
+              "revenue": 48790.10,
+              "orders": 328,
+              "avgOrderValue": 148.8
+            },
+            {
+              "date": "2026-07-16",
+              "revenue": 51240.95,
+              "orders": 340,
+              "avgOrderValue": 150.7
+            }
+          ],
+          "topProducts": [
+            {
+              "sku": "ELEC-MOB-001",
+              "unitsSold": 145,
+              "revenue": 117499.55
+            },
+            {
+              "sku": "HOME-COOK-101",
+              "unitsSold": 220,
+              "revenue": 17597.80
+            }
+          ]
+        },
+        "abTests": [
+          {
+            "testId": "AB-HP-2026-01",
+            "name": "Homepage Hero Banner",
+            "status": "running",
+            "variants": [
+              {
+                "id": "A",
+                "description": "Static hero image",
+                "trafficShare": 0.5,
+                "conversionRate": 0.032
+              },
+              {
+                "id": "B",
+                "description": "Video hero banner",
+                "trafficShare": 0.5,
+                "conversionRate": 0.038
+              }
+            ],
+            "startDate": "2026-07-10",
+            "metrics": {
+              "primary": "conversionRate",
+              "secondary": ["avgSessionDuration", "scrollDepth"]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "integrations": {
+    "payments": [
+      {
+        "provider": "Stripe",
+        "enabled": true,
+        "config": {
+          "apiKeyRef": "secret/stripe/prod",
+          "webhookUrl": "https://api.example.com/webhooks/stripe",
+          "currencies": ["CAD", "USD", "EUR"]
+        }
+      },
+      {
+        "provider": "PayPal",
+        "enabled": false,
+        "config": {
+          "apiKeyRef": "secret/paypal/prod",
+          "webhookUrl": "https://api.example.com/webhooks/paypal",
+          "currencies": ["CAD", "USD"]
+        }
+      }
+    ],
+    "shipping": [
+      {
+        "provider": "Canada Post",
+        "enabled": true,
+        "config": {
+          "apiKeyRef": "secret/canadapost/prod",
+          "services": ["Regular Parcel", "Expedited Parcel", "Xpresspost"]
+        }
+      },
+      {
+        "provider": "UPS",
+        "enabled": true,
+        "config": {
+          "apiKeyRef": "secret/ups/prod",
+          "services": ["Standard", "Express Saver", "Worldwide Express"]
+        }
+      }
+    ],
+    "analytics": {
+      "provider": "Custom",
+      "enabled": true,
+      "config": {
+        "eventStream": "kafka://analytics-events",
+        "warehouse": "bigquery",
+        "dashboards": ["sales", "traffic", "operations"]
+      }
+    }
+  },
+  "security": {
+    "policies": {
+      "password": {
+        "minLength": 12,
+        "requireUppercase": true,
+        "requireLowercase": true,
+        "requireNumber": true,
+        "requireSymbol": true
+      },
+      "sessions": {
+        "idleTimeoutMinutes": 30,
+        "absoluteTimeoutHours": 12,
+        "refreshTokenValidityDays": 30
+      }
+    },
+    "auditLog": {
+      "enabled": true,
+      "retentionDays": 365,
+      "events": [
+        "LOGIN_SUCCESS",
+        "LOGIN_FAILURE",
+        "PASSWORD_CHANGE",
+        "ROLE_UPDATE",
+        "TENANT_CONFIG_CHANGE"
+      ]
+    }
+  }
+}

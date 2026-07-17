@@ -1,5 +1,8 @@
 import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 public class SimpleQA {
@@ -104,6 +107,59 @@ public class SimpleQA {
 //        String: It is immutable, meaning once created, its value cannot be changed. Any modification creates a new String object.
 //        StringBuilder: It is mutable and designed for single-threaded use. It provides better performance for string manipulation when thread safety is not a concern.
 //        StringBuffer: It is mutable and thread-safe, meaning it can be used in multi-threaded environments. However, it has a performance overhead due to synchronization, making it slower than StringBuilder in single-threaded scenarios.
+
+
+        Date date = Calendar.getInstance().getTime();
+        System.out.println("Current Date: " + date);
+        System.out.println("Current timeZone: "+Calendar.getInstance().getTimeZone());
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Los_Angeles"));
+        System.out.println("Current Date in America/Los_Angeles: " + calendar.getTime());
+        calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Toronto"));
+        System.out.println("Current Date in America/Toronto: " + calendar.getTime());
+        calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        System.out.println("Current Date in UTC: " + calendar.getTime());
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+        System.out.println("Current LocalDateTime: " + localDateTime);
+
+        ZonedDateTime zonedDateTime = ZonedDateTime.now();
+        System.out.println("Current ZonedDateTime: " + zonedDateTime);
+
+        ZoneId zoneId = ZoneId.of("America/Los_Angeles");
+        zonedDateTime = zonedDateTime.withZoneSameInstant(zoneId);
+        System.out.println("ZonedDateTime in America/Los_Angeles: " + zonedDateTime);
+
+        zoneId = ZoneId.of("America/Toronto");
+        zonedDateTime = zonedDateTime.withZoneSameInstant(zoneId);
+        System.out.println("ZonedDateTime in Canada/Toronto: " + zonedDateTime);
+
+        zonedDateTime = ZonedDateTime.now();
+        zoneId = ZoneId.of("UTC");
+        zonedDateTime = zonedDateTime.withZoneSameInstant(zoneId);
+        System.out.println("ZonedDateTime in UTC/Zulu: " + zonedDateTime);
+
+        zonedDateTime = ZonedDateTime.parse("2026-07-15T11:37:28.828893300Z");
+        System.out.println("ZonedDateTime Set to Specific Time: " + zonedDateTime);
+
+        zonedDateTime = ZonedDateTime.parse("2026-07-15T07:39:38.741623200-04:00");
+        System.out.println("ZonedDateTime Set to Specific Time with offset: " + zonedDateTime);
+        System.out.println("ZonedDateTime Set to Specific Time in UTC: " + zonedDateTime.withZoneSameInstant(ZoneId.of("UTC")));
+
+        System.out.println(localDateTime);
+        localDateTime = localDateTime.plusDays(1);
+        System.out.println("LocalDateTime after adding one day: " + localDateTime);
+        localDateTime = localDateTime.plusDays(-1);
+        System.out.println("LocalDateTime after subtracting one day: " + localDateTime);
+
+
+        Date date1 = Calendar.getInstance().getTime();
+        System.out.println("Current Date: " + date1);
+        ZonedDateTime zDateTime = ZonedDateTime.now();
+        zDateTime.withZoneSameInstant(ZoneId.of("America/Los_Angeles"));
+        System.out.println("Current Date in America/Los_Angeles: " + zDateTime);
+        zDateTime = date1.toInstant().atZone(ZoneId.systemDefault());
+
+
 
     }
 }
