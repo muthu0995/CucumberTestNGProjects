@@ -109,41 +109,29 @@ public class SimpleQA {
 //        StringBuffer: It is mutable and thread-safe, meaning it can be used in multi-threaded environments. However, it has a performance overhead due to synchronization, making it slower than StringBuilder in single-threaded scenarios.
 
 
-        Date date = Calendar.getInstance().getTime();
-        System.out.println("Current Date: " + date);
-        System.out.println("Current timeZone: "+Calendar.getInstance().getTimeZone());
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Los_Angeles"));
-        System.out.println("Current Date in America/Los_Angeles: " + calendar.getTime());
-        calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Toronto"));
-        System.out.println("Current Date in America/Toronto: " + calendar.getTime());
-        calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        System.out.println("Current Date in UTC: " + calendar.getTime());
+            Date date = Calendar.getInstance().getTime();
+            System.out.println("Current Date: " + date);
+            LocalDateTime localDateTime = LocalDateTime.now();
+            System.out.println("Current LocalDateTime: " + localDateTime);
+            ZonedDateTime zonedDateTime = ZonedDateTime.now();
+            System.out.println("Current ZonedDateTime: " + zonedDateTime);
 
-        LocalDateTime localDateTime = LocalDateTime.now();
-        System.out.println("Current LocalDateTime: " + localDateTime);
+            date = Calendar.getInstance(TimeZone.getTimeZone("America/Los_Angeles")).getTime();
+            //It won't change date based on America/Los_Angeles
+            System.out.println("Current Date in America/Los_Angeles: " + date);
+            //It won't change date based on America/Los_Angeles
+            System.out.println("Current LocalDateTime in America/Los_Angeles: " + localDateTime.atZone(ZoneId.of("America/Los_Angeles")));
+            //It will change date based on America/Los_Angeles
+            System.out.println("Current ZonedDateTime in America/Los_Angeles: " + zonedDateTime.withZoneSameInstant(ZoneId.of("America/Los_Angeles")));
 
-        ZonedDateTime zonedDateTime = ZonedDateTime.now();
-        System.out.println("Current ZonedDateTime: " + zonedDateTime);
 
-        ZoneId zoneId = ZoneId.of("America/Los_Angeles");
-        zonedDateTime = zonedDateTime.withZoneSameInstant(zoneId);
-        System.out.println("ZonedDateTime in America/Los_Angeles: " + zonedDateTime);
+            Calendar.getInstance(TimeZone.getTimeZone("America/Los_Angeles")).getTime();
+            ZoneId zoneId = ZoneId.of("America/Los_Angeles");
+            localDateTime.atZone(zoneId);
+            zonedDateTime.withZoneSameInstant(zoneId);
 
-        zoneId = ZoneId.of("America/Toronto");
-        zonedDateTime = zonedDateTime.withZoneSameInstant(zoneId);
-        System.out.println("ZonedDateTime in Canada/Toronto: " + zonedDateTime);
-
-        zonedDateTime = ZonedDateTime.now();
-        zoneId = ZoneId.of("UTC");
-        zonedDateTime = zonedDateTime.withZoneSameInstant(zoneId);
-        System.out.println("ZonedDateTime in UTC/Zulu: " + zonedDateTime);
-
-        zonedDateTime = ZonedDateTime.parse("2026-07-15T11:37:28.828893300Z");
-        System.out.println("ZonedDateTime Set to Specific Time: " + zonedDateTime);
-
-        zonedDateTime = ZonedDateTime.parse("2026-07-15T07:39:38.741623200-04:00");
-        System.out.println("ZonedDateTime Set to Specific Time with offset: " + zonedDateTime);
-        System.out.println("ZonedDateTime Set to Specific Time in UTC: " + zonedDateTime.withZoneSameInstant(ZoneId.of("UTC")));
+            localDateTime =LocalDateTime.parse("2023-10-01T12:00:00");
+            zonedDateTime = ZonedDateTime.parse("2023-10-01T12:00:00-07:00[America/Los_Angeles]");
 
         System.out.println(localDateTime);
         localDateTime = localDateTime.plusDays(1);
@@ -152,12 +140,7 @@ public class SimpleQA {
         System.out.println("LocalDateTime after subtracting one day: " + localDateTime);
 
 
-        Date date1 = Calendar.getInstance().getTime();
-        System.out.println("Current Date: " + date1);
-        ZonedDateTime zDateTime = ZonedDateTime.now();
-        zDateTime.withZoneSameInstant(ZoneId.of("America/Los_Angeles"));
-        System.out.println("Current Date in America/Los_Angeles: " + zDateTime);
-        zDateTime = date1.toInstant().atZone(ZoneId.systemDefault());
+
 
 
 
