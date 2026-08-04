@@ -22,7 +22,8 @@ import org.json.JSONObject;
 import javax.print.Doc;
 
 public class JsonUtilities {
-final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
     public static void main(String[] args) throws IOException {
 
         new JsonUtilities().JsonRead();
@@ -88,7 +89,7 @@ final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
         BufferedReader reader = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/src/test/resources/SampleJson.json"));
         String line;
         String jsonString = "";
-        while((line=reader.readLine())!=null){
+        while ((line = reader.readLine()) != null) {
             jsonString = jsonString + line;
         }
         reader.close();
@@ -116,11 +117,11 @@ final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
         System.out.println("tenantID: " + tenantID); //-> this using DefaultProvider ->JsonPath.parse(JsonString);
         String tenantID1 = jsonNode.at("/tenants/0/tenantId").asText();
         System.out.println("tenantID: " + tenantID1);
-        tenantID1 = readJacksonDotNotation(jsonNode,"tenants.0.tenantId").toString();
+        tenantID1 = readJacksonDotNotation(jsonNode, "tenants.0.tenantId").toString();
         System.out.println("Jackson tenantID: " + tenantID1);
-        String tenants = readJacksonDotNotation(jsonNode,"tenants").toString();
+        String tenants = readJacksonDotNotation(jsonNode, "tenants").toString();
         System.out.println("Jackson tenants Array: " + tenants);
-        tenants = readJacksonDotNotation(jsonNode,"tenants.0").toString();
+        tenants = readJacksonDotNotation(jsonNode, "tenants.0").toString();
         System.out.println("Jackson tenants Object: " + tenants);
 
         Object carrierCondition = doc.read("$.tenants[0].orders[0].shipping[?(@.service==\"Expedited Parcel\")].carrier").toString();
@@ -131,10 +132,10 @@ final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     }
 
-    public Object readJacksonDotNotation(JsonNode jsonNode, String path){
+    public Object readJacksonDotNotation(JsonNode jsonNode, String path) {
         String keys[] = path.split("\\.");
-        JsonNode currentNode=jsonNode;
-        for(String key:keys){
+        JsonNode currentNode = jsonNode;
+        for (String key : keys) {
 
             //this if else only handle jsonObject not JsonArray
 //            if(currentNode.get(key)!=null){
@@ -143,27 +144,27 @@ final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 //                return null;
 
             boolean array = key.matches("\\d+");
-            if(array)
+            if (array)
                 currentNode = currentNode.get(Integer.parseInt(key));
-            else if (currentNode.get(key)!=null)
+            else if (currentNode.get(key) != null)
                 currentNode = currentNode.get(key);
             else
                 return null;
         }
 
-        if(currentNode.isValueNode())
+        if (currentNode.isValueNode())
             return currentNode.asText();
-        else if(currentNode.isBoolean())
+        else if (currentNode.isBoolean())
             return currentNode.asBoolean();
         else if (currentNode.isInt())
             return currentNode.asInt();
-        else if(currentNode.isDouble())
+        else if (currentNode.isDouble())
             return currentNode.asDouble();
-        else if(currentNode.isLong())
+        else if (currentNode.isLong())
             return currentNode.asLong();
         else if (currentNode.isObject())
             return currentNode;
-        else if(currentNode.isArray())
+        else if (currentNode.isArray())
             return currentNode;
 
         //if nothing matches
@@ -188,7 +189,7 @@ final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
         System.out.println("After deleting system.id using DefaultProvider: " + jwayDoc.jsonString());
 
         //To Delete from JsonNode convert to ObjectNode
-        ObjectNode objectNode = (ObjectNode)jsonNode.get("system");
+        ObjectNode objectNode = (ObjectNode) jsonNode.get("system");
         objectNode.remove("id");
         System.out.println("After deleting system.id using Jackson JsonNode: " + jsonNode.toString());
 
@@ -211,8 +212,6 @@ final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
         System.out.println("Jway Delete -> orders Array: " + jwayDoc.jsonString());
 
 
-
-
     }
 
     public void addNodeObjectArrayInJson() throws IOException {
@@ -228,48 +227,48 @@ final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
 
         //addEndNode
-        doc.put("$.system.features","name","Muthu");
-        System.out.println("Jway After adding endNode:"+doc.jsonString());
-        ObjectNode feature = (ObjectNode)jsonNode.at("/system/features");
-        feature.put("name","Kumar");
-        System.out.println("Jackson After adding endNode:"+jsonNode.toString());
+        doc.put("$.system.features", "name", "Muthu");
+        System.out.println("Jway After adding endNode:" + doc.jsonString());
+        ObjectNode feature = (ObjectNode) jsonNode.at("/system/features");
+        feature.put("name", "Kumar");
+        System.out.println("Jackson After adding endNode:" + jsonNode.toString());
 
         //add new jsonObject
-        Map<String,Object> newObject = new LinkedHashMap<>();
-        newObject.put("firstElement","1");
-        newObject.put("secondElement",2);
-        newObject.put("thirdElement",true);
-        doc.put("$.security.policies","newElements",newObject);
-        System.out.println("Jway After adding Object:"+doc.jsonString());
+        Map<String, Object> newObject = new LinkedHashMap<>();
+        newObject.put("firstElement", "1");
+        newObject.put("secondElement", 2);
+        newObject.put("thirdElement", true);
+        doc.put("$.security.policies", "newElements", newObject);
+        System.out.println("Jway After adding Object:" + doc.jsonString());
         ObjectNode newObjectNode = objectMapper.createObjectNode();
-        newObjectNode.put("firstElement","1");
-        newObjectNode.put("secondElement",2);
-        newObjectNode.put("thirdElement",true);
-        ObjectNode policies = (ObjectNode)jsonNode.at("/security/policies");
-        policies.put("newElements",newObjectNode);
-        System.out.println("Jackson After adding Object:"+jsonNode.toString());
+        newObjectNode.put("firstElement", "1");
+        newObjectNode.put("secondElement", 2);
+        newObjectNode.put("thirdElement", true);
+        ObjectNode policies = (ObjectNode) jsonNode.at("/security/policies");
+        policies.put("newElements", newObjectNode);
+        System.out.println("Jackson After adding Object:" + jsonNode.toString());
 
         //add new jsonArray
-        List<Map<String,Object>> newJsonArray = new LinkedList<Map<String,Object>>();
+        List<Map<String, Object>> newJsonArray = new LinkedList<Map<String, Object>>();
         newJsonArray.add(newObject);
-        doc.put("$.security.policies","newArray",newJsonArray);
-        List<String>directlist = new LinkedList<>();
+        doc.put("$.security.policies", "newArray", newJsonArray);
+        List<String> directlist = new LinkedList<>();
         directlist.add("One");
         directlist.add("Two");
         directlist.add("Three");
-        doc.put("$.security.policies","newDirectArray",directlist);
-        System.out.println("Jway After adding Array:"+doc.jsonString());
+        doc.put("$.security.policies", "newDirectArray", directlist);
+        System.out.println("Jway After adding Array:" + doc.jsonString());
 
         ArrayNode newArrayNode = objectMapper.createArrayNode();
         newArrayNode.add(newObjectNode);
-        policies = (ObjectNode)jsonNode.at("/security/policies");
-        policies.put("newArray",newArrayNode);
+        policies = (ObjectNode) jsonNode.at("/security/policies");
+        policies.put("newArray", newArrayNode);
         ArrayNode newDirectArrayNode = objectMapper.createArrayNode();
         newDirectArrayNode.add("One");
         newDirectArrayNode.add("Two");
         newDirectArrayNode.add("Three");
-        policies.put("newDirectArray",newDirectArrayNode);
-        System.out.println("Jackson After adding Object:"+jsonNode.toString());
+        policies.put("newDirectArray", newDirectArrayNode);
+        System.out.println("Jackson After adding Object:" + jsonNode.toString());
     }
 
     public void replaceOrUpdateInJson() throws IOException {
@@ -280,37 +279,37 @@ final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(jsonString);
 
         //updating field
-        doc.set("$.system.id","20345165");
-        System.out.println("Jway After replacing system.id:"+doc.jsonString());
-        ObjectNode objectNode = (ObjectNode)jsonNode.get("system");
-        objectNode.put("id","20345165");
-        System.out.println("Jackson After replacing system.id:"+jsonNode.toString());
+        doc.set("$.system.id", "20345165");
+        System.out.println("Jway After replacing system.id:" + doc.jsonString());
+        ObjectNode objectNode = (ObjectNode) jsonNode.get("system");
+        objectNode.put("id", "20345165");
+        System.out.println("Jackson After replacing system.id:" + jsonNode.toString());
 
         //updating jsonObject
-        Map<String,Object> newObject = new LinkedHashMap<>();
-        newObject.put("firstElement","1");
-        newObject.put("secondElement",2);
-        newObject.put("thirdElement",true);
-        doc.set("$.system.regions",newObject);
-        System.out.println("Jway After replacing system.regions:"+doc.jsonString());
-        objectNode = (ObjectNode)jsonNode.get("system");
+        Map<String, Object> newObject = new LinkedHashMap<>();
+        newObject.put("firstElement", "1");
+        newObject.put("secondElement", 2);
+        newObject.put("thirdElement", true);
+        doc.set("$.system.regions", newObject);
+        System.out.println("Jway After replacing system.regions:" + doc.jsonString());
+        objectNode = (ObjectNode) jsonNode.get("system");
         ObjectNode newObjectNode = objectMapper.createObjectNode();
-        newObjectNode.put("firstElement","1");
-        newObjectNode.put("secondElement",2);
-        newObjectNode.put("thirdElement",true);
-        objectNode.set("regions",newObjectNode);
-        System.out.println("Jackson After replacing system.regions:"+jsonNode.toString());
+        newObjectNode.put("firstElement", "1");
+        newObjectNode.put("secondElement", 2);
+        newObjectNode.put("thirdElement", true);
+        objectNode.set("regions", newObjectNode);
+        System.out.println("Jackson After replacing system.regions:" + jsonNode.toString());
 
 
         //updating jsonArray
-        List<Map<String,Object>> newJsonArray = new LinkedList<Map<String,Object>>();
+        List<Map<String, Object>> newJsonArray = new LinkedList<Map<String, Object>>();
         newJsonArray.add(newObject);
-        doc.set("$.system.regions",newJsonArray);
-        System.out.println("Jway After replacing system.regions Array:"+doc.jsonString());
+        doc.set("$.system.regions", newJsonArray);
+        System.out.println("Jway After replacing system.regions Array:" + doc.jsonString());
         ArrayNode arrayNode = objectMapper.createArrayNode();
         arrayNode.add(newObjectNode);
-        objectNode.set("regions",arrayNode);
-        System.out.println("Jackson After replacing system.regions Array:"+jsonNode.toString());
+        objectNode.set("regions", arrayNode);
+        System.out.println("Jackson After replacing system.regions Array:" + jsonNode.toString());
 
 
     }

@@ -7,7 +7,7 @@ import java.util.*;
 
 public class SimpleQA {
 
-    public  static void main(String[] args) {
+    public static void main(String[] args) {
 //    1.What is the difference between == and equals()?
 //     == compares the references of two objects, while equals() compares the contents of two objects.
 
@@ -65,7 +65,7 @@ public class SimpleQA {
         list.add("Two");
         list.add("Three");
         System.out.println("List: " + list);
-        System.out.println("List[0]:"+list.get(0));
+        System.out.println("List[0]:" + list.get(0));
         list.addFirst("Zero");
         list.remove(0);
         list.remove("Two");
@@ -80,7 +80,7 @@ public class SimpleQA {
         System.out.println("Sorted List by Desending order: " + list);
         Collections.reverse(list); // It will reverse the insertion order
         System.out.println("Reverse the insertion orderList: " + list);
-        System.out.println( list.stream().allMatch(s -> s.isEmpty()));
+        System.out.println(list.stream().allMatch(s -> s.isEmpty()));
         System.out.println("List: " + list);
 
         HashSet<String> set = new HashSet<>();
@@ -88,16 +88,16 @@ public class SimpleQA {
         set.add("Two");
         set.add("Three");
         System.out.println("Set: " + set);
-        System.out.println("Set[0]:"+set.iterator().next());
+        System.out.println("Set[0]:" + set.iterator().next());
 
         HashMap<String, Integer> map = new HashMap<>();
         map.put("One", 1);
         map.put("Two", 2);
         map.put("Three", 3);
         System.out.println("Map: " + map);
-            for(Map.Entry<String,Integer> givenEntry: map.entrySet()){
+        for (Map.Entry<String, Integer> givenEntry : map.entrySet()) {
             System.out.println("Key: " + givenEntry.getKey() + ", Value: " + givenEntry.getValue());
-            }
+        }
 
 //        8.What is the difference between ArrayList and LinkedList?
 //        ArrayList: It is a resizable array implementation of the List interface. It provides fast random access to elements but slower insertion and deletion operations, especially in the middle of the list.
@@ -109,39 +109,35 @@ public class SimpleQA {
 //        StringBuffer: It is mutable and thread-safe, meaning it can be used in multi-threaded environments. However, it has a performance overhead due to synchronization, making it slower than StringBuilder in single-threaded scenarios.
 
 
-            Date date = Calendar.getInstance().getTime();
-            System.out.println("Current Date: " + date);
-            LocalDateTime localDateTime = LocalDateTime.now();
-            System.out.println("Current LocalDateTime: " + localDateTime);
-            ZonedDateTime zonedDateTime = ZonedDateTime.now();
-            System.out.println("Current ZonedDateTime: " + zonedDateTime);
+        Date date = Calendar.getInstance().getTime();
+        System.out.println("Current Date: " + date);
+        LocalDateTime localDateTime = LocalDateTime.now();
+        System.out.println("Current LocalDateTime: " + localDateTime);
+        ZonedDateTime zonedDateTime = ZonedDateTime.now();
+        System.out.println("Current ZonedDateTime: " + zonedDateTime);
 
-            date = Calendar.getInstance(TimeZone.getTimeZone("America/Los_Angeles")).getTime();
-            //It won't change date based on America/Los_Angeles
-            System.out.println("Current Date in America/Los_Angeles: " + date);
-            //It won't change date based on America/Los_Angeles
-            System.out.println("Current LocalDateTime in America/Los_Angeles: " + localDateTime.atZone(ZoneId.of("America/Los_Angeles")));
-            //It will change date based on America/Los_Angeles
-            System.out.println("Current ZonedDateTime in America/Los_Angeles: " + zonedDateTime.withZoneSameInstant(ZoneId.of("America/Los_Angeles")));
+        date = Calendar.getInstance(TimeZone.getTimeZone("America/Los_Angeles")).getTime();
+        //It won't change date based on America/Los_Angeles
+        System.out.println("Current Date in America/Los_Angeles: " + date);
+        //It won't change date based on America/Los_Angeles
+        System.out.println("Current LocalDateTime in America/Los_Angeles: " + localDateTime.atZone(ZoneId.of("America/Los_Angeles")));
+        //It will change date based on America/Los_Angeles
+        System.out.println("Current ZonedDateTime in America/Los_Angeles: " + zonedDateTime.withZoneSameInstant(ZoneId.of("America/Los_Angeles")));
 
 
-            Calendar.getInstance(TimeZone.getTimeZone("America/Los_Angeles")).getTime();
-            ZoneId zoneId = ZoneId.of("America/Los_Angeles");
-            localDateTime.atZone(zoneId);
-            zonedDateTime.withZoneSameInstant(zoneId);
+        Calendar.getInstance(TimeZone.getTimeZone("America/Los_Angeles")).getTime();
+        ZoneId zoneId = ZoneId.of("America/Los_Angeles");
+        localDateTime.atZone(zoneId);
+        zonedDateTime.withZoneSameInstant(zoneId);
 
-            localDateTime =LocalDateTime.parse("2023-10-01T12:00:00");
-            zonedDateTime = ZonedDateTime.parse("2023-10-01T12:00:00-07:00[America/Los_Angeles]");
+        localDateTime = LocalDateTime.parse("2023-10-01T12:00:00");
+        zonedDateTime = ZonedDateTime.parse("2023-10-01T12:00:00-07:00[America/Los_Angeles]");
 
         System.out.println(localDateTime);
         localDateTime = localDateTime.plusDays(1);
         System.out.println("LocalDateTime after adding one day: " + localDateTime);
         localDateTime = localDateTime.plusDays(-1);
         System.out.println("LocalDateTime after subtracting one day: " + localDateTime);
-
-
-
-
 
 
     }
